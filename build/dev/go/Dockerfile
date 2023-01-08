@@ -1,5 +1,5 @@
 # STAGE 1: build
-FROM golang:1.13.1-alpine3.10 as build
+FROM golang:1.19.1-alpine as build
 
 WORKDIR /source
 
