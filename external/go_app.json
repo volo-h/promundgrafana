@@ -15,8 +15,7 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
-  "id": 7,
-  "iteration": 1673117876341,
+  "iteration": 1673211097759,
   "links": [],
   "panels": [
     {
@@ -29,7 +28,7 @@
         "rgba(237, 129, 40, 0.89)",
         "#d44a3a"
       ],
-      "datasource": null,
+      "datasource": "-- Grafana --",
       "decimals": 2,
       "description": "Overall average response time",
       "fieldConfig": {
@@ -86,17 +85,7 @@
         "lineColor": "rgb(31, 120, 193)",
         "show": false
       },
-      "tableColumn": "{instance=\"127.0.0.1:8080\", job=\"client\", operation=\"balance_update\"}",
-      "targets": [
-        {
-          "expr": "rate(client_balance_response_duration_histogram_sum{operation=\"balance_update\"}[30m])\n/\nrate(client_balance_response_duration_histogram_count{operation=\"balance_update\"}[30m])",
-          "format": "time_series",
-          "instant": false,
-          "intervalFactor": 1,
-          "legendFormat": "",
-          "refId": "A"
-        }
-      ],
+      "tableColumn": "",
       "thresholds": "100,150,200",
       "title": "Response average",
       "type": "singlestat",
@@ -125,7 +114,7 @@
         "mode": "spectrum"
       },
       "dataFormat": "tsbuckets",
-      "datasource": "Prometheus",
+      "datasource": "-- Grafana --",
       "description": "Balance response duration (ms)",
       "fieldConfig": {
         "defaults": {
@@ -148,16 +137,6 @@
       },
       "links": [],
       "reverseYBuckets": false,
-      "targets": [
-        {
-          "expr": "sum(increase(client_balance_response_duration_histogram_bucket[30m])) by (le)",
-          "format": "heatmap",
-          "instant": false,
-          "intervalFactor": 1,
-          "legendFormat": "{{le}} ms",
-          "refId": "A"
-        }
-      ],
       "title": "Response duration",
       "tooltip": {
         "show": true,
@@ -187,7 +166,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Prometheus",
+      "datasource": "-- Grafana --",
       "decimals": 0,
       "description": "Number of HTTP responses - last 30 minutes",
       "fieldConfig": {
@@ -232,16 +211,6 @@
       "spaceLength": 10,
       "stack": false,
       "steppedLine": false,
-      "targets": [
-        {
-          "expr": "sum(increase(client_http_response_counter{operation=\"balance_update\"}[30m])) by (code)",
-          "format": "time_series",
-          "instant": false,
-          "intervalFactor": 1,
-          "legendFormat": "{{code}}",
-          "refId": "A"
-        }
-      ],
       "thresholds": [],
       "timeFrom": null,
       "timeRegions": [],
@@ -293,7 +262,7 @@
         "#299c46",
         "#299c46"
       ],
-      "datasource": "Prometheus",
+      "datasource": "-- Grafana --",
       "description": "Number of HTTP 2XX responses - until now",
       "fieldConfig": {
         "defaults": {
@@ -350,16 +319,6 @@
         "show": false
       },
       "tableColumn": "",
-      "targets": [
-        {
-          "expr": "sum(client_http_response_counter{operation=\"balance_update\",code=~\"2.*\"}) OR on() vector(0)",
-          "format": "time_series",
-          "instant": false,
-          "intervalFactor": 1,
-          "legendFormat": "",
-          "refId": "A"
-        }
-      ],
       "thresholds": "",
       "title": "HTTP 2XX total",
       "type": "singlestat",
@@ -382,7 +341,7 @@
         "rgba(237, 129, 40, 0.89)",
         "rgba(237, 129, 40, 0.89)"
       ],
-      "datasource": "Prometheus",
+      "datasource": "-- Grafana --",
       "description": "Number of HTTP 4XX responses - until now",
       "fieldConfig": {
         "defaults": {
@@ -439,17 +398,6 @@
         "show": false
       },
       "tableColumn": "",
-      "targets": [
-        {
-          "expr": "sum(client_http_response_counter{operation=\"balance_update\",code=~\"4.*\"}) OR on() vector(0)",
-          "format": "time_series",
-          "hide": false,
-          "instant": true,
-          "intervalFactor": 1,
-          "legendFormat": "",
-          "refId": "A"
-        }
-      ],
       "thresholds": "",
       "title": "HTTP 4XX total",
       "type": "singlestat",
@@ -472,7 +420,7 @@
         "#d44a3a",
         "#d44a3a"
       ],
-      "datasource": "Prometheus",
+      "datasource": "-- Grafana --",
       "decimals": null,
       "description": "Number of HTTP 5XX responses - until now",
       "fieldConfig": {
@@ -530,17 +478,6 @@
         "show": false
       },
       "tableColumn": "",
-      "targets": [
-        {
-          "expr": "sum(client_http_response_counter{operation=\"balance_update\",code=~\"5.*\"}) OR on() vector(0)",
-          "format": "time_series",
-          "hide": false,
-          "instant": true,
-          "intervalFactor": 1,
-          "legendFormat": "",
-          "refId": "A"
-        }
-      ],
       "thresholds": "",
       "title": "HTTP 5XX total",
       "type": "singlestat",
@@ -563,7 +500,7 @@
         "rgba(237, 129, 40, 0.89)",
         "#299c46"
       ],
-      "datasource": "Prometheus",
+      "datasource": "-- Grafana --",
       "decimals": 2,
       "description": "",
       "fieldConfig": {
@@ -620,16 +557,7 @@
         "lineColor": "rgb(31, 120, 193)",
         "show": false
       },
-      "tableColumn": "client_balance_gauge{instance=\"127.0.0.1:8080\", job=\"client\"}",
-      "targets": [
-        {
-          "expr": "client_balance_gauge",
-          "format": "time_series",
-          "instant": true,
-          "intervalFactor": 1,
-          "refId": "A"
-        }
-      ],
+      "tableColumn": "",
       "thresholds": "2500,5000,10000",
       "title": "Current",
       "type": "singlestat",
@@ -648,7 +576,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Prometheus",
+      "datasource": "-- Grafana --",
       "decimals": 2,
       "description": "Changes in balance",
       "fieldConfig": {
@@ -694,17 +622,6 @@
       "spaceLength": 10,
       "stack": false,
       "steppedLine": false,
-      "targets": [
-        {
-          "expr": "client_balance_gauge",
-          "format": "time_series",
-          "hide": false,
-          "instant": false,
-          "intervalFactor": 1,
-          "legendFormat": "balance",
-          "refId": "A"
-        }
-      ],
       "thresholds": [
         {
           "colorMode": "warning",
@@ -769,7 +686,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Prometheus",
+      "datasource": "-- Grafana --",
       "description": "Balance activity history - until now",
       "fieldConfig": {
         "defaults": {
@@ -811,17 +728,6 @@
       "spaceLength": 10,
       "stack": false,
       "steppedLine": false,
-      "targets": [
-        {
-          "expr": "sum(client_balance_activity_counter{client=~\"$client\"}) by (activity)",
-          "format": "time_series",
-          "hide": false,
-          "instant": false,
-          "intervalFactor": 1,
-          "legendFormat": "{{activity}}",
-          "refId": "A"
-        }
-      ],
       "thresholds": [],
       "timeFrom": null,
       "timeRegions": [],
@@ -957,5 +863,5 @@
   "timezone": "",
   "title": "go test fromo json",
   "uid": "QwQN1JdGz",
-  "version": 7
+  "version": 3
 }
