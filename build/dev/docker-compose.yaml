@@ -3,11 +3,64 @@ version: "3.4"
 services:
 
   go:
+    container_name: go
     build:
       context: "../.."
       dockerfile: "build/dev/go/Dockerfile"
     ports:
       - "8080:8080"
+
+  grafana:
+    image: grafana/grafana:${GRAFANA_VERSION:-7.1.5}
+    container_name: grafana
+    restart: unless-stopped
+    environment:
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
+      - GF_USERS_DEFAULT_THEME=light
+      - GF_LOG_MODE=console
+      - GF_LOG_LEVEL=critical
+      - GF_PANELS_ENABLE_ALPHA=true
+    volumes:
+      - ./configs/grafana/provisioning/dashboards.yml:/etc/grafana/provisioning/dashboards/provisioning-dashboards.yaml:ro
+      - ./configs/grafana/provisioning/datasources.yml:/etc/grafana/provisioning/datasources/provisioning-datasources.yaml:ro
+      - ./dashboards/go_app.json:/var/lib/grafana/dashboards/go_app.json:ro
+      - grafana-data:/var/lib/grafana
+    depends_on:
+      - prometheus
+    ports:
+      - 3000:3000
+    networks:
+      - monitoring
+
+  prometheus:
+    image: prom/prometheus:${PROMETHEUS_VERSION:-v2.40.2}
+    container_name: prometheus
+    restart: unless-stopped
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--log.level=error'
+      - '--storage.tsdb.path=/prometheus'
+      - '--storage.tsdb.retention.time=7d'
+      - '--web.console.libraries=/usr/share/prometheus/console_libraries'
+      - '--web.console.templates=/usr/share/prometheus/consoles'
+      - '--web.external-url=http://localhost:9090'
+    volumes:
+      - ./configs/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus-data:/prometheus
+    ports:
+      - 9090:9090
+    networks:
+      - monitoring
+
+volumes:
+  grafana-data: {}
+  prometheus-data: {}
+
+networks:
+  monitoring:
+    name: monitoring
+
 
 #  prometheus:
 #    image: "prom/prometheus:v2.21.0"

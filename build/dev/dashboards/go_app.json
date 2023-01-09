@@ -15,8 +15,11 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
-  "iteration": 1673211097759,
-  "links": [],
+  "id": 2,
+  "iteration": 1600897537052,
+  "links": [
+
+  ],
   "panels": [
     {
       "cacheTimeout": null,
@@ -28,15 +31,9 @@
         "rgba(237, 129, 40, 0.89)",
         "#d44a3a"
       ],
-      "datasource": "-- Grafana --",
+      "datasource": "Client",
       "decimals": 2,
       "description": "Overall average response time",
-      "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
-        "overrides": []
-      },
       "format": "none",
       "gauge": {
         "maxValue": 100,
@@ -53,7 +50,9 @@
       },
       "id": 20,
       "interval": null,
-      "links": [],
+      "links": [
+
+      ],
       "mappingType": 1,
       "mappingTypes": [
         {
@@ -85,7 +84,17 @@
         "lineColor": "rgb(31, 120, 193)",
         "show": false
       },
-      "tableColumn": "",
+      "tableColumn": "instance",
+      "targets": [
+        {
+          "expr": "rate(client_balance_response_duration_histogram_sum{operation=\"balance_update\"}[30m])\n/\nrate(client_balance_response_duration_histogram_count{operation=\"balance_update\"}[30m])",
+          "format": "time_series",
+          "instant": false,
+          "intervalFactor": 1,
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
       "thresholds": "100,150,200",
       "title": "Response average",
       "type": "singlestat",
@@ -114,34 +123,41 @@
         "mode": "spectrum"
       },
       "dataFormat": "tsbuckets",
-      "datasource": "-- Grafana --",
+      "datasource": "Client",
       "description": "Balance response duration (ms)",
-      "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
-        "overrides": []
-      },
       "gridPos": {
         "h": 9,
         "w": 10,
         "x": 5,
         "y": 0
       },
-      "heatmap": {},
-      "hideZeroBuckets": false,
+      "heatmap": {
+
+      },
       "highlightCards": true,
       "id": 14,
       "legend": {
         "show": true
       },
-      "links": [],
-      "reverseYBuckets": false,
+      "links": [
+
+      ],
+      "targets": [
+        {
+          "expr": "sum(increase(client_balance_response_duration_histogram_bucket[30m])) by (le)",
+          "format": "heatmap",
+          "instant": false,
+          "intervalFactor": 1,
+          "legendFormat": "{{le}} ms",
+          "refId": "A"
+        }
+      ],
       "title": "Response duration",
       "tooltip": {
         "show": true,
         "showHistogram": false
       },
+      "transparent": false,
       "type": "heatmap",
       "xAxis": {
         "show": true
@@ -162,28 +178,22 @@
       "yBucketSize": null
     },
     {
-      "aliasColors": {},
+      "aliasColors": {
+
+      },
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "-- Grafana --",
+      "datasource": "Client",
       "decimals": 0,
       "description": "Number of HTTP responses - last 30 minutes",
-      "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
-        "overrides": []
-      },
       "fill": 1,
-      "fillGradient": 0,
       "gridPos": {
         "h": 9,
         "w": 9,
         "x": 15,
         "y": 0
       },
-      "hiddenSeries": false,
       "id": 12,
       "legend": {
         "alignAsTable": false,
@@ -199,21 +209,38 @@
       },
       "lines": true,
       "linewidth": 1,
-      "links": [],
+      "links": [
+
+      ],
       "nullPointMode": "null",
       "percentage": false,
-      "pluginVersion": "7.1.5",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
       "repeat": null,
-      "seriesOverrides": [],
+      "seriesOverrides": [
+
+      ],
       "spaceLength": 10,
       "stack": false,
       "steppedLine": false,
-      "thresholds": [],
+      "targets": [
+        {
+          "expr": "sum(increase(client_http_response_counter{operation=\"balance_update\"}[30m])) by (code)",
+          "format": "time_series",
+          "instant": false,
+          "intervalFactor": 1,
+          "legendFormat": "{{code}}",
+          "refId": "A"
+        }
+      ],
+      "thresholds": [
+
+      ],
       "timeFrom": null,
-      "timeRegions": [],
+      "timeRegions": [
+
+      ],
       "timeShift": null,
       "title": "Response code",
       "tooltip": {
@@ -221,13 +248,16 @@
         "sort": 0,
         "value_type": "individual"
       },
+      "transparent": false,
       "type": "graph",
       "xaxis": {
         "buckets": null,
         "mode": "time",
         "name": null,
         "show": true,
-        "values": []
+        "values": [
+
+        ]
       },
       "yaxes": [
         {
@@ -262,14 +292,8 @@
         "#299c46",
         "#299c46"
       ],
-      "datasource": "-- Grafana --",
+      "datasource": "Client",
       "description": "Number of HTTP 2XX responses - until now",
-      "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
-        "overrides": []
-      },
       "format": "none",
       "gauge": {
         "maxValue": 100,
@@ -286,7 +310,9 @@
       },
       "id": 2,
       "interval": null,
-      "links": [],
+      "links": [
+
+      ],
       "mappingType": 1,
       "mappingTypes": [
         {
@@ -319,6 +345,16 @@
         "show": false
       },
       "tableColumn": "",
+      "targets": [
+        {
+          "expr": "sum(client_http_response_counter{operation=\"balance_update\",code=~\"2.*\"}) OR on() vector(0)",
+          "format": "time_series",
+          "instant": false,
+          "intervalFactor": 1,
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
       "thresholds": "",
       "title": "HTTP 2XX total",
       "type": "singlestat",
@@ -341,14 +377,8 @@
         "rgba(237, 129, 40, 0.89)",
         "rgba(237, 129, 40, 0.89)"
       ],
-      "datasource": "-- Grafana --",
+      "datasource": "Client",
       "description": "Number of HTTP 4XX responses - until now",
-      "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
-        "overrides": []
-      },
       "format": "none",
       "gauge": {
         "maxValue": 100,
@@ -365,7 +395,9 @@
       },
       "id": 4,
       "interval": null,
-      "links": [],
+      "links": [
+
+      ],
       "mappingType": 1,
       "mappingTypes": [
         {
@@ -398,6 +430,17 @@
         "show": false
       },
       "tableColumn": "",
+      "targets": [
+        {
+          "expr": "sum(client_http_response_counter{operation=\"balance_update\",code=~\"4.*\"}) OR on() vector(0)",
+          "format": "time_series",
+          "hide": false,
+          "instant": true,
+          "intervalFactor": 1,
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
       "thresholds": "",
       "title": "HTTP 4XX total",
       "type": "singlestat",
@@ -420,15 +463,9 @@
         "#d44a3a",
         "#d44a3a"
       ],
-      "datasource": "-- Grafana --",
+      "datasource": "Client",
       "decimals": null,
       "description": "Number of HTTP 5XX responses - until now",
-      "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
-        "overrides": []
-      },
       "format": "none",
       "gauge": {
         "maxValue": 100,
@@ -445,7 +482,9 @@
       },
       "id": 6,
       "interval": null,
-      "links": [],
+      "links": [
+
+      ],
       "mappingType": 1,
       "mappingTypes": [
         {
@@ -478,6 +517,17 @@
         "show": false
       },
       "tableColumn": "",
+      "targets": [
+        {
+          "expr": "sum(client_http_response_counter{operation=\"balance_update\",code=~\"5.*\"}) OR on() vector(0)",
+          "format": "time_series",
+          "hide": false,
+          "instant": true,
+          "intervalFactor": 1,
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
       "thresholds": "",
       "title": "HTTP 5XX total",
       "type": "singlestat",
@@ -500,15 +550,9 @@
         "rgba(237, 129, 40, 0.89)",
         "#299c46"
       ],
-      "datasource": "-- Grafana --",
+      "datasource": "Client",
       "decimals": 2,
       "description": "",
-      "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
-        "overrides": []
-      },
       "format": "currencyGBP",
       "gauge": {
         "maxValue": 10000,
@@ -525,7 +569,9 @@
       },
       "id": 8,
       "interval": null,
-      "links": [],
+      "links": [
+
+      ],
       "mappingType": 1,
       "mappingTypes": [
         {
@@ -558,6 +604,15 @@
         "show": false
       },
       "tableColumn": "",
+      "targets": [
+        {
+          "expr": "client_balance_gauge",
+          "format": "time_series",
+          "instant": true,
+          "intervalFactor": 1,
+          "refId": "A"
+        }
+      ],
       "thresholds": "2500,5000,10000",
       "title": "Current",
       "type": "singlestat",
@@ -572,28 +627,22 @@
       "valueName": "current"
     },
     {
-      "aliasColors": {},
+      "aliasColors": {
+
+      },
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "-- Grafana --",
+      "datasource": "Client",
       "decimals": 2,
       "description": "Changes in balance",
-      "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
-        "overrides": []
-      },
       "fill": 1,
-      "fillGradient": 0,
       "gridPos": {
         "h": 8,
         "w": 9,
         "x": 5,
         "y": 9
       },
-      "hiddenSeries": false,
       "hideTimeOverride": false,
       "id": 10,
       "legend": {
@@ -611,17 +660,31 @@
       },
       "lines": true,
       "linewidth": 1,
-      "links": [],
+      "links": [
+
+      ],
       "nullPointMode": "null",
       "percentage": false,
-      "pluginVersion": "7.1.5",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
-      "seriesOverrides": [],
+      "seriesOverrides": [
+
+      ],
       "spaceLength": 10,
       "stack": false,
       "steppedLine": false,
+      "targets": [
+        {
+          "expr": "client_balance_gauge",
+          "format": "time_series",
+          "hide": false,
+          "instant": false,
+          "intervalFactor": 1,
+          "legendFormat": "balance",
+          "refId": "A"
+        }
+      ],
       "thresholds": [
         {
           "colorMode": "warning",
@@ -641,7 +704,9 @@
         }
       ],
       "timeFrom": null,
-      "timeRegions": [],
+      "timeRegions": [
+
+      ],
       "timeShift": null,
       "title": "History",
       "tooltip": {
@@ -649,13 +714,16 @@
         "sort": 0,
         "value_type": "individual"
       },
+      "transparent": false,
       "type": "graph",
       "xaxis": {
         "buckets": null,
         "mode": "time",
         "name": null,
         "show": true,
-        "values": []
+        "values": [
+
+        ]
       },
       "yaxes": [
         {
@@ -682,27 +750,21 @@
       }
     },
     {
-      "aliasColors": {},
+      "aliasColors": {
+
+      },
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "-- Grafana --",
+      "datasource": "Client",
       "description": "Balance activity history - until now",
-      "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
-        "overrides": []
-      },
       "fill": 1,
-      "fillGradient": 0,
       "gridPos": {
         "h": 8,
         "w": 10,
         "x": 14,
         "y": 9
       },
-      "hiddenSeries": false,
       "id": 16,
       "legend": {
         "alignAsTable": false,
@@ -717,20 +779,38 @@
       },
       "lines": true,
       "linewidth": 1,
-      "links": [],
+      "links": [
+
+      ],
       "nullPointMode": "null",
       "percentage": false,
-      "pluginVersion": "7.1.5",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
-      "seriesOverrides": [],
+      "seriesOverrides": [
+
+      ],
       "spaceLength": 10,
       "stack": false,
       "steppedLine": false,
-      "thresholds": [],
+      "targets": [
+        {
+          "expr": "sum(client_balance_activity_counter{client=~\"$client\"}) by (activity)",
+          "format": "time_series",
+          "hide": false,
+          "instant": false,
+          "intervalFactor": 1,
+          "legendFormat": "{{activity}}",
+          "refId": "A"
+        }
+      ],
+      "thresholds": [
+
+      ],
       "timeFrom": null,
-      "timeRegions": [],
+      "timeRegions": [
+
+      ],
       "timeShift": null,
       "title": "Activity - $client",
       "tooltip": {
@@ -744,7 +824,9 @@
         "mode": "time",
         "name": null,
         "show": true,
-        "values": []
+        "values": [
+
+        ]
       },
       "yaxes": [
         {
@@ -772,19 +854,20 @@
     }
   ],
   "refresh": "5s",
-  "schemaVersion": 26,
+  "schemaVersion": 16,
   "style": "dark",
-  "tags": [],
+  "tags": [
+
+  ],
   "templating": {
     "list": [
       {
         "allValue": null,
         "current": {
-          "selected": true,
-          "tags": [],
-          "text": [
-            "All"
+          "tags": [
+
           ],
+          "text": "All",
           "value": [
             "$__all"
           ]
@@ -824,7 +907,9 @@
         "skipUrlSync": false,
         "sort": 0,
         "tagValuesQuery": "",
-        "tags": [],
+        "tags": [
+
+        ],
         "tagsQuery": "",
         "type": "query",
         "useTags": false
@@ -861,7 +946,7 @@
     ]
   },
   "timezone": "",
-  "title": "go test fromo json",
+  "title": "Client",
   "uid": "QwQN1JdGz",
-  "version": 3
+  "version": 25
 }

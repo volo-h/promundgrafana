@@ -25,3 +25,12 @@
   http://localhost:8080/metrics
 
 ### start over docker compose
+  ```sh
+    make docker-up
+    make generate-metrics
+
+    http://localhost:9090/targets - should be green (with labels UP)
+    http://localhost:3000/d/QwQN1JdGz/client - should see activity
+  ```
+
+### start over minikube
